@@ -1,0 +1,62 @@
+#include <stdio.h>
+
+long long factorial(int num)
+{
+    long long fact = 1;
+    int i;
+    for (i = 1; i <= num; i++)
+    {
+        fact = fact * i;
+    }
+    return fact;
+}
+
+long long perm(int n, int r)
+{
+    return factorial(n) / factorial(n - r);
+}
+
+long long comb(int n, int r)
+{
+    return factorial(n) / (factorial(r) * factorial(n - r));
+}
+
+int main()
+{
+    int n, r, choice;
+    long long result;
+
+    printf("Enter value of n: ");
+    scanf("%d", &n);
+
+    printf("Enter value of r: ");
+    scanf("%d", &r);
+
+    if (r > n || n < 0 || r < 0)
+    {
+        printf("Invalid input\n");
+        return 0;
+    }
+
+    printf("1. Permutation (nPr)\n");
+    printf("2. Combination (nCr)\n");
+    printf("Enter your choice: ");
+    scanf("%d", &choice);
+
+    if (choice == 1)
+    {
+        result = perm(n, r);
+        printf("Permutation = %lld\n", result);
+    }
+    else if (choice == 2)
+    {
+        result = comb(n, r);
+        printf("Combination = %lld\n", result);
+    }
+    else
+    {
+        printf("Invalid choice\n");
+    }
+
+    return 0;
+}
