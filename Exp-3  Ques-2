@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+int charFrequency(char str[], char ch)
+{
+    int count = 0;
+    for(int i = 0; str[i] != '\0'; i++) 
+    {
+        if(str[i] == ch)
+            count++;
+    }
+    return count;
+}
+
+int wordCount(char str[])
+{
+    int words = 0;
+    int i = 0;
+
+    while(str[i] != '\0') 
+    {
+       
+        while(str[i] == ' ')
+            i++;
+
+
+        if(str[i] != '\0')
+            words++;
+
+        
+        while(str[i] != ' ' && str[i] != '\0')
+            i++;
+    }
+    return words;
+}
+
+
+void alphabetFrequency(char str[]) 
+{
+    printf("\nAlphabet Frequency:\n");
+
+    for(char ch = 'a'; ch <= 'z'; ch++)
+    {
+        int count = 0;
+
+        for(int i = 0; str[i] != '\0'; i++) 
+        {
+            if(tolower(str[i]) == ch)
+                count++;
+        }
+
+        if(count > 0)
+            printf("%c : %d\n", ch, count);
+    }
+}
+
+int main() 
+{
+    char str[200];
+    char ch;
+
+    printf("Enter a string: ");
+    fgets(str, sizeof(str), stdin);
+    str[strcspn(str, "\n")] = '\0';  
+
+    printf("Enter a character to find frequency: ");
+    scanf("%c", &ch);
+
+    printf("\nFrequency of '%c' = %d\n", ch, charFrequency(str, ch));
+
+    printf("Number of words = %d\n", wordCount(str));
+
+    alphabetFrequency(str);
+
+    return 0;
+}
