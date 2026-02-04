@@ -1,0 +1,58 @@
+#include <stdio.h>
+
+void printShortName(char name[])
+{
+    int i;
+    int lastSpaceIndex = -1;
+
+  
+    for (i = 0; name[i] != '\0'; i++)
+    {
+        if (name[i] == ' ')
+            lastSpaceIndex = i;
+    }
+
+    
+    if (lastSpaceIndex == -1)
+    {
+        printf("%s", name);
+        return;
+    }
+
+    
+    printf("%c ", name[0]); 
+
+    for (i = 1; i < lastSpaceIndex; i++)
+    {
+        if (name[i - 1] == ' ')
+            printf("%c ", name[i]);
+    }
+
+    
+    for (i = lastSpaceIndex + 1; name[i] != '\0'; i++)
+    {
+        printf("%c", name[i]);
+    }
+}
+
+int main()
+{
+    char name[100];
+
+    printf("Enter full name: ");
+    fgets(name, sizeof(name), stdin);
+
+    
+    for (int i = 0; name[i] != '\0'; i++)
+    {
+        if (name[i] == '\n')
+        {
+            name[i] = '\0';
+            break;
+        }
+    }
+
+    printShortName(name);
+
+    return 0;
+}
