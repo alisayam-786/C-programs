@@ -1,0 +1,19 @@
+#include <stdio.h>
+
+void increase(int *num) {
+    (*num)++;  
+}
+
+int main() {
+    int number;
+
+    printf("Enter a number: ");
+    scanf("%d", &number);
+
+    printf("Before function call, number = %d\n", number);
+
+    increase(&number);  
+    printf("After function call, number = %d\n", number);
+
+    return 0;
+}
