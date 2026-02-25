@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+int main()
+{
+    FILE *fp, *fp1;
+    int ch;
+
+    fp = fopen("Source.pages", "rb");
+    fp1 = fopen("Destination.pages", "wb");
+
+    if (fp == NULL || fp1 == NULL)
+    {
+        printf("File opening error");
+        return 1;
+    }
+
+    while ((ch = fgetc(fp)) != EOF)
+    {
+        fputc(ch, fp1);
+    }
+
+    fclose(fp);
+    fclose(fp1);
+
+    printf("Data Copied Successfully");
+
+    return 0;
+}
