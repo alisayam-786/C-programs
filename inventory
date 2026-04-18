@@ -1,0 +1,124 @@
+#include<stdio.h>
+#include<string.h>
+
+struct user {
+    char name[50];
+    char username[50];
+    char password[50];
+};
+
+struct product {
+    char name[50];
+    int qty;
+};
+
+void register_user() {
+    struct user u, temp;
+    FILE *fp;
+
+    printf("\n Registration \n");
+    printf("Enter Name: ");
+    scanf(" %[^\n]", u.name);
+
+    printf("Enter Username: ");
+    scanf("%s", u.username);
+
+    printf("Enter Password: ");
+    scanf("%s", u.password);
+
+    fp = fopen("users.dat", "rb");
+    if(fp != NULL) {
+        while(fread(&temp, sizeof(temp), 1, fp)) {
+            if(strcmp(u.username, temp.username) == 0) {
+                printf("Username already exists!\n");
+                fclose(fp);
+                return;
+            }
+        }
+        fclose(fp);
+    }
+
+    fp = fopen("users.dat", "ab");
+    fwrite(&u, sizeof(u), 1, fp);
+    fclose(fp);
+
+    printf("Registered Successfully!\n");
+}
+
+int login_user() {
+    struct user u;
+    char uname[50], pass[50];
+    FILE *fp;
+
+    fp = fopen("users.dat", "rb");
+    if(fp == NULL) {
+        printf("No users found! Register first.\n");
+        return 0;
+    }
+
+    printf("\n Login \n");
+    printf("Enter Username: ");
+    scanf("%s", uname);
+
+    printf("Enter Password: ");
+    scanf("%s", pass);
+
+    while(fread(&u, sizeof(u), 1, fp)){
+        if(strcmp(uname, u.username) == 0 &&
+           strcmp(pass, u.password) == 0) {
+            fclose(fp);
+            return 1;
+        }
+    }
+
+    fclose(fp);
+    return 0;
+}
+
+void show_inventory() {
+    struct product p[3] = {
+        {"Laptop", 20},
+        {"Tablet", 35},
+        {"Headphones", 60}
+    };
+
+    printf("\n Inventory \n");
+    for(int i = 0; i < 3; i++) {
+        printf("%s - %d units\n", p[i].name, p[i].qty);
+    }
+}
+
+int main() {
+    int choice;
+
+    while(1) {
+        printf("\n MENU \n");
+        printf("1. Register\n");
+        printf("2. Login\n");
+        printf("3. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch(choice) {
+            case 1:
+                register_user();
+                break;
+
+            case 2:
+                if(login_user()) {
+                    printf("Login Successful!\n");
+                    show_inventory();
+                } else {
+                    printf("Invalid Login!\n");
+                }
+                break;
+
+            case 3:
+                printf("Exiting program...\n");
+                return 0;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+}
